@@ -1,0 +1,131 @@
+import csv
+class Matrimony:
+    filename="Db.csv"
+    def Addname(self):
+        Name=input(" Persons name:")
+        Gender=input("your gender:")
+        likes=input("your likes:")
+        dislikes=input("your dislikes")
+        religion=input("your religion")
+        with open(db.filename,'a',newline='') as file:
+            csvwriter=csv.writer(file)
+            csvwriter.writerow([Name,Gender,likes,dislikes,religion])
+        print("Saved Successsfully")
+        
+        
+    def Showname(self):
+        print("-"*48)
+        print("persons name\t\tyour gender\t\tyour likes\t\tyour dislikes\t\tyour religion")
+        print("-"*48)
+        with open(db.filename,'r')as file:
+            data=csv.reader(file)
+            for row in list(data):
+                print(row[0],"\t\t",row[1],"\t\t",row[2],"\t\t",row[3],"\t\t",row[4],"\n")
+                print('-'*48)
+    def Searchname(self):
+        nametosearch=input("enter the data to search:")
+        print("----------------- search results--------------\n")
+        print("-"*48)
+        print("persons name\t\tyour gender\t\tyour likes\t\tyour dislikes\t\tyour religion")
+        print("-"*48)
+        with open(self.filename,'r') as file:
+            data=csv.reader(file)
+            matrimonylist=list(data)
+            searchresult=[m for m in matrimonylist if nametosearch in m]
+            if len(searchresult)>0:
+                for row in searchresult:
+                
+                    print(row[0],"\t\t",row[1],"\t\t",row[2],"\t\t",row[3],"\t\t",row[4],"\n")
+                else:
+                    print("--------- no name found---------")
+        print("-"*48)
+    def remove(self):
+        nametodelete=input("enter the data to remove")
+        with open(self.filename,'r') as file:
+            data=csv.reader(file)
+            matrimonylist=list(data)
+            finalresult=[m for m in matrimonylist if nametodelete !=m[0]]
+        with open(self.filename,'w',newline='') as file:
+            csvwriter=csv.writer(file)
+            csvwriter.writerows(finalresult)
+        if len(finalresult)==len(matrimonylist):
+            print("--------no name found to delete------\n")
+        else:
+            print("----------updates names--------\n")
+            self.showname()
+    def Retrieval(self):
+        print("-"*48)
+        print("persons name\t\tyour gender\t\tyour likes\t\tyour dislikes\t\tyour religion")
+        with open('Db.csv','r') as file:
+            csv_retrieval=csv.reader(file)
+            for row in list(csv_retrieval):
+                print("-"*48)
+                print(row[0],"\t\t",row[1],"\t\t",row[2],"\t\t",row[3],"\t\t",row[4],"\n")
+        print("-"*48)
+    
+    def modify(self):
+        namemod=input("Enter the person name who's data is to be modified")        
+        with open(self.filename,'r') as file:
+            data1=csv.reader(file)
+            matrimonylist=list(data1)
+            #searchresult=[m for m in matrimonylist if namemod in m]
+        data=pd.read_csv("Db.csv")
+        print("Select what has to be modified")
+        print("1.name")
+        print("2.gender")
+        print("3.likes")
+        print("4.dislikes")
+        print("5.religion")
+        mychoice=None
+        try:
+            mychoice=eval(input("enter the choice:"))
+        except:
+            logging.error("enter the choice as number")
+        if(mychoice==1):
+            data['Name']=data['Name'].replace(Name,input())
+        elif(mychoice==2):
+            data['Gender']=data['Gender'].replace(Gender,input())
+        elif(mychoice==3):
+            data['likes']=data['likes'].replace(likes,input())
+        elif(mychoice==4):
+            data['dislikes']=data['dislikes'].replace(dislikes,input())
+        elif(mychoice==5):
+            data['religion']=data['religion'].replace(religion,input())
+        else:
+            pass
+            
+    def menu(self):
+        print("Menu")
+        print("0.Exit")
+        print("1.add names")
+        print("2.show all names")
+        print("3.search for a name")
+        print("4.remove a name")
+        print("5.retrieval")
+        print("6.modify")
+        mychoice=None
+        try:
+            mychoice=eval(input("enter the choice:"))
+        except:
+            logging.error("enter the choice as number")
+        return mychoice
+print("WElcome to our matrimony")
+while True:
+    db=Matrimony()
+    choice=db.menu()
+    if choice==0:
+        break
+    elif choice==1:
+        db.Addname()
+    elif choice==2:
+        db.Showname()
+    elif choice==3:
+        db.Searchname()
+    elif choice==4:
+        db.remove()
+    elif choice==5:
+        db.Retrieval()
+    elif choice==6:
+        db.modify
+    else:
+        pass
